@@ -2,7 +2,7 @@
   * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
   * Created: 2018-09-10
   */
-package io.mango
+package io.mango.common
 
 import scala.reflect.ClassTag
 import scala.util.{Failure, Left, Right, Success, Try}

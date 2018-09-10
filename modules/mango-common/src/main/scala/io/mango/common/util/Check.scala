@@ -2,7 +2,7 @@
   * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
   * Created: 2018-09-10
   */
-package io.mango.util
+package io.mango.common.util
 
 object Check {
   def arg(condition: Boolean, msg: => CharSequence): Unit = {

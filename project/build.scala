@@ -19,6 +19,7 @@ object build {
 
   object depends {
     val scalaLib = "org.scala-lang" % "scala-library"
+    val scalaReflect = "org.scala-lang" % "scala-reflect"
 
     val slf4jApi = "org.slf4j" % "slf4j-api" % ver.slf4j
     val logbackClassic = "ch.qos.logback" % "logback-classic" % ver.logback
