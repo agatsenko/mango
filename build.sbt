@@ -8,6 +8,9 @@ lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
   settings(build.scalaCommonSettings: _*).
   settings(
     name := "mango-sql",
+    libraryDependencies ++= Seq(
+      build.depends.scalamock % Test,
+    )
   ).
   dependsOn(
     `mango-common`,

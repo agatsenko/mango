@@ -8,7 +8,6 @@ import scala.language.higherKinds
 
 import scala.collection._
 import scala.collection.generic.CanBuildFrom
-import scala.reflect.ClassTag
 
 import java.sql.{Connection, ResultSet}
 
@@ -51,10 +50,9 @@ package object sql {
   }
 
   implicit class ResultSetExt(val rs: ResultSet) extends AnyVal {
-    def get[T](columnPos: Int)(implicit ct: ClassTag[T]): Option[T] =
-      Converter.fromSqlValue(rs.getObject(columnPos, Converter.toSqlType(ct.runtimeClass)))
+    def get[T](columnPos: Int)(implicit r: SqlRecordReader[T]): T = r.read(rs, columnPos)
 
-    def get[T](columnName: String)(implicit ct: ClassTag[T]): Option[T] = get(rs.findColumn(columnName))
+    def get[T](columnName: String)(implicit r: SqlRecordReader[T]): T = get(rs.findColumn(columnName))
 
     def foreach(action: ResultSet => Unit): Unit = {
       while (rs.next()) {

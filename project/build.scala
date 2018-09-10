@@ -15,6 +15,7 @@ object build {
     val logback = "1.2.+"
 
     val scalatest = "3.0.5"
+    val scalamock = "4.1.+"
   }
 
   object depends {
@@ -25,6 +26,7 @@ object build {
     val logbackClassic = "ch.qos.logback" % "logback-classic" % ver.logback
 
     val scalatest = "org.scalatest" %% "scalatest" % ver.scalatest
+    val scalamock = "org.scalamock" %% "scalamock" % ver.scalamock
   }
 
   val commonSettings = Seq(

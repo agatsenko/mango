@@ -53,6 +53,7 @@ object Converter {
     }
   }
 
+  // FIXME: need to remove
   def fromSqlValue[T](sqlValue: Any)(implicit ct: ClassTag[T]): Option[T] = {
     val valueType = ct.runtimeClass
 

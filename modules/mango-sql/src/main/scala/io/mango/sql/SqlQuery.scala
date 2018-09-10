@@ -7,7 +7,6 @@ package io.mango.sql
 import scala.language.higherKinds
 
 import scala.collection.generic.CanBuildFrom
-import scala.reflect.ClassTag
 
 import java.sql.{Connection, PreparedStatement, ResultSet}
 
@@ -22,11 +21,11 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any]) {
     ps
   }
 
-  def execScalar[T : ClassTag](implicit conn: Connection): Option[T] = {
+  def execScalar[T](implicit c: Connection, r: SqlRecordReader[Option[T]]): Option[T] = {
     using(prepareStatement) { ps =>
       val rs = ps.executeQuery()
       if (rs.next()) {
-        rs.get[T](1)
+        rs.get[Option[T]](1)
       }
       else {
         None
