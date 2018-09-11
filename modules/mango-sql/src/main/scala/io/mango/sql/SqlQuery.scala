@@ -13,7 +13,7 @@ import java.sql.{Connection, PreparedStatement, ResultSet}
 import io.mango.common.resource.using
 
 class SqlQuery private[sql](val sql: String, paramValues: Seq[Any]) {
-  val params: Seq[Any] = if (paramValues == null) Seq.empty else paramValues.map(Converter.toSqlValue)
+  val params: Seq[Any] = if (paramValues == null) Seq.empty else paramValues.map(SqlValueConverter.toSqlValue)
 
   def prepareStatement(implicit conn: Connection): PreparedStatement = {
     val ps = conn.prepareStatement(sql)
