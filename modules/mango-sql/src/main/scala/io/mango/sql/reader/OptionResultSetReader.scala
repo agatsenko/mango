@@ -6,9 +6,9 @@ package io.mango.sql.reader
 
 import java.sql.ResultSet
 
-import io.mango.sql.SqlRecordReader
+import io.mango.sql.ResultSetReader
 
-trait OptionRecordReader {
-  implicit def optionReader[T <: AnyRef](implicit r: SqlRecordReader[T]): SqlRecordReader[Option[T]] =
+trait OptionResultSetReader {
+  implicit def optionReader[T <: AnyRef](implicit r: ResultSetReader[T]): ResultSetReader[Option[T]] =
     (rs: ResultSet, column: Int) => Option(r.read(rs, column))
 }

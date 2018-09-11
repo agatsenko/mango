@@ -50,9 +50,9 @@ package object sql {
   }
 
   implicit class ResultSetExt(val rs: ResultSet) extends AnyVal {
-    def get[T](columnPos: Int)(implicit r: SqlRecordReader[T]): T = r.read(rs, columnPos)
+    def get[T](columnPos: Int)(implicit r: ResultSetReader[T]): T = r.read(rs, columnPos)
 
-    def get[T](columnName: String)(implicit r: SqlRecordReader[T]): T = get(rs.findColumn(columnName))
+    def get[T](columnName: String)(implicit r: ResultSetReader[T]): T = get(rs.findColumn(columnName))
 
     def foreach(action: ResultSet => Unit): Unit = {
       while (rs.next()) {

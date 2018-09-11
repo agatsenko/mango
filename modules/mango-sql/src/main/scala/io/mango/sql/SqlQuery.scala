@@ -21,7 +21,7 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any]) {
     ps
   }
 
-  def execScalar[T](implicit c: Connection, r: SqlRecordReader[Option[T]]): Option[T] = {
+  def execScalar[T](implicit c: Connection, r: ResultSetReader[Option[T]]): Option[T] = {
     using(prepareStatement) { ps =>
       val rs = ps.executeQuery()
       if (rs.next()) {
