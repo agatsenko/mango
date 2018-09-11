@@ -14,6 +14,9 @@ object build {
     val slf4j = "1.7.+"
     val logback = "1.2.+"
 
+    val hikariCp = "2.7.+"
+    val h2database = "1.4.+"
+
     val scalatest = "3.0.5"
     val scalamock = "4.1.+"
   }
@@ -24,6 +27,9 @@ object build {
 
     val slf4jApi = "org.slf4j" % "slf4j-api" % ver.slf4j
     val logbackClassic = "ch.qos.logback" % "logback-classic" % ver.logback
+
+    val hikariCp = "com.zaxxer" % "HikariCP" % ver.hikariCp
+    val h2database = "com.h2database" % "h2" % ver.h2database
 
     val scalatest = "org.scalatest" %% "scalatest" % ver.scalatest
     val scalamock = "org.scalamock" %% "scalamock" % ver.scalamock

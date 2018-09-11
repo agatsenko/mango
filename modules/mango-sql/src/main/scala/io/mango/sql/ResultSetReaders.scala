@@ -2,12 +2,10 @@
   * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
   * Created: 2018-09-10
   */
-package io.mango.sql.reader
+package io.mango.sql
 
 import java.{lang => jl, math => jm, sql => js, util => ju}
 import java.time._
-
-import io.mango.sql.ResultSetReader
 
 trait ResultSetReaders {
   //#region Boolean / java.lang.Boolean readers

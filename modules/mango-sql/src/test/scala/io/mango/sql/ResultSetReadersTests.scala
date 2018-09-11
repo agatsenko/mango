@@ -2,19 +2,18 @@
   * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
   * Created: 2018-09-10
   */
-package io.mango.sql.reader
+package io.mango.sql
 
 import java.{lang => jl, math => jm, sql => js, util => ju}
 import java.sql.ResultSet
 import java.time._
 
-import io.mango.sql.ResultSetReader
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FunSuite, Matchers}
 import org.scalatest.prop.TableDrivenPropertyChecks
 
 class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with Matchers with MockFactory {
-  import io.mango.sql.reader.ResultSetReaders._
+  import ResultSetReaders._
   import io.mango.common.util.SimpleValExt._
 
   //#region read Boolean / java.lan.Boolean

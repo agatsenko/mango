@@ -4,8 +4,6 @@
   */
 package io.mango.sql.test.infrastructure
 
-import scala.language.implicitConversions
-
 import java.sql.{Date, Timestamp}
 import java.time._
 

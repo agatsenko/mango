@@ -1,12 +1,10 @@
 /**
   * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-10
+  * Created: 2018-09-11
   */
-package io.mango.sql.reader
+package io.mango.sql
 
 import java.sql.ResultSet
-
-import io.mango.sql.ResultSetReader
 
 trait OptionResultSetReader {
   implicit def optionReader[T <: AnyRef](implicit r: ResultSetReader[T]): ResultSetReader[Option[T]] =
