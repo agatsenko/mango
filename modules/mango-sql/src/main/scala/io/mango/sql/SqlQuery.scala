@@ -12,8 +12,8 @@ import java.sql.{Connection, PreparedStatement, ResultSet}
 
 import io.mango.common.resource.using
 
-class SqlQuery private[sql](val sql: String, paramValues: Seq[Any]) {
-  val params: Seq[Any] = if (paramValues == null) Seq.empty else paramValues.map(SqlValueConverter.toSqlValue)
+class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit converter: SqlValueConverter) {
+  val params: Seq[Any] = if (paramValues == null) Seq.empty else paramValues.map(converter.toSqlValue)
 
   def prepareStatement(implicit conn: Connection): PreparedStatement = {
     val ps = conn.prepareStatement(sql)
@@ -22,12 +22,10 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any]) {
   }
 
   def execScalar[T](implicit c: Connection, r: ResultSetReader[Option[T]]): Option[T] = {
-    import ResultSetExt._
-
     using(prepareStatement) { ps =>
       val rs = ps.executeQuery()
       if (rs.next()) {
-        rs.get[Option[T]](1)
+        ResultSetReader.readAs[Option[T]](rs, 1)
       }
       else {
         None

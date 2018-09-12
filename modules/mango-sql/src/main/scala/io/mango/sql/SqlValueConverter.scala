@@ -7,7 +7,7 @@ package io.mango.sql
 import java.{math => jm, sql => jsql}
 import java.time._
 
-object SqlValueConverter {
+trait SqlValueConverter {
   def toSqlValue(value: Any): Any = {
     val refinedValue = value match {
       case None => null
@@ -29,15 +29,20 @@ object SqlValueConverter {
     }
   }
 
-  private def toSqlTime(v: LocalTime): jsql.Time = if (v == null) null else jsql.Time.valueOf(v)
+  protected def toSqlTime(v: LocalTime): jsql.Time = if (v == null) null else jsql.Time.valueOf(v)
 
-  private def toSqlDate(v: LocalDate): jsql.Date = if (v == null) null else jsql.Date.valueOf(v)
+  protected def toSqlDate(v: LocalDate): jsql.Date = if (v == null) null else jsql.Date.valueOf(v)
 
-  private def toSqlTimestamp(v: LocalDateTime): jsql.Timestamp = if (v == null) null else jsql.Timestamp.valueOf(v)
+  protected def toSqlTimestamp(v: LocalDateTime): jsql.Timestamp = if (v == null) null else jsql.Timestamp.valueOf(v)
 
-  private def toSqlTimestamp(v: ZonedDateTime): jsql.Timestamp =
+  protected def toSqlTimestamp(v: ZonedDateTime): jsql.Timestamp = {
     if (v == null) null else jsql.Timestamp.from(v.toInstant)
+  }
 
-  private def toSqlTimestamp(v: OffsetDateTime): jsql.Timestamp =
+  protected def toSqlTimestamp(v: OffsetDateTime): jsql.Timestamp = {
     if (v == null) null else jsql.Timestamp.from(v.toInstant)
+  }
+}
+
+object SqlValueConverter extends SqlValueConverter {
 }

@@ -9,11 +9,9 @@ lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
   settings(
     name := "mango-sql",
     libraryDependencies ++= Seq(
-      build.depends.slf4jApi,
-
       build.depends.scalamock % Test,
       build.depends.h2database % Test,
-      build.depends.hikariCp % Test,
+      build.depends.hikariCp % Test
     )
   ).
   dependsOn(
