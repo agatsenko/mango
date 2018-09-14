@@ -43,7 +43,7 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit con
       implicit conn: Connection,
       cbf: CanBuildFrom[Nothing, T, C[T]]): C[T] = using(execQuery)(_.mapRows(mapper))
 
-  def execRows(action: ResultSet => Unit)(implicit conn: Connection): Unit = {
+  def execForeachRows(action: ResultSet => Unit)(implicit conn: Connection): Unit = {
     using(execQuery)(_.foreachRows(action))
   }
 
