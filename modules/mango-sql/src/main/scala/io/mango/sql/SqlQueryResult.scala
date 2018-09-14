@@ -17,7 +17,7 @@ import io.mango.common.util.TryExt
 class SqlQueryResult private[sql](
     val preparedStatement: PreparedStatement,
     val resultSet: ResultSet) extends CloseableResource {
-  def isClosed: Boolean = preparedStatement == null || preparedStatement.isClosed
+  def isClosed: Boolean = preparedStatement.isClosed
 
   override def close(): Unit = {
     if (isOpened) {
