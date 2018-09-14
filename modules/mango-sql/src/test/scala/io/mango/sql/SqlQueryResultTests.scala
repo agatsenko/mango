@@ -25,39 +25,53 @@ class SqlQueryResultTests extends FunSuite with MockFactory with TableDrivenProp
   }
 
   test("foreachRows(action) should apply action for all rows in resultSet") {
-    val expectedRows = Seq("one", "two", "three")
+    val testData = Table(
+      "expectedRows",
+      Seq.empty,
+      Seq("one"),
+      Seq("one", "two", "three")
+    )
 
-    val ps = stub[PreparedStatement]
-    val rs = mock[ResultSet]
-    for (rowNum <- 1 to expectedRows.size) {
-      (rs.next _).expects().returns(true)
-      (rs.getRow _).expects().returns(rowNum)
+    forAll(testData) { expectedRows =>
+      val ps = stub[PreparedStatement]
+      val rs = mock[ResultSet]
+      for (rowNum <- 1 to expectedRows.size) {
+        (rs.next _).expects().returns(true)
+        (rs.getRow _).expects().returns(rowNum)
+      }
+      (rs.next _).expects().returns(false)
+
+      val queryResult = new SqlQueryResult(ps, rs)
+      val actualRowsBuilder = Seq.newBuilder[String]
+      queryResult.foreachRows(rs => actualRowsBuilder += expectedRows(rs.getRow - 1))
+      val actualRows = actualRowsBuilder.result()
+      assert(actualRows.size == expectedRows.size)
+      assert(actualRows.forall(expectedRows.contains))
     }
-    (rs.next _).expects().returns(false)
-
-    val queryResult = new SqlQueryResult(ps, rs)
-    val actualRowsBuilder = Seq.newBuilder[String]
-    queryResult.foreachRows(rs => actualRowsBuilder += expectedRows(rs.getRow - 1))
-    val actualRows = actualRowsBuilder.result()
-    assert(actualRows.size == expectedRows.size)
-    assert(actualRows.forall(expectedRows.contains))
   }
 
   test("mapRows(mapper) should map all rows and return specified collection") {
-    val expectedRows = Seq("one", "two", "three")
+    val testData = Table(
+      "expectedRows",
+      Seq.empty,
+      Seq("one"),
+      Seq("one", "two", "three")
+    )
 
-    val ps = stub[PreparedStatement]
-    val rs = mock[ResultSet]
-    for (rowNum <- 1 to expectedRows.size) {
-      (rs.next _).expects().returns(true)
-      (rs.getRow _).expects().returns(rowNum)
+    forAll(testData) { expectedRows =>
+      val ps = stub[PreparedStatement]
+      val rs = mock[ResultSet]
+      for (rowNum <- 1 to expectedRows.size) {
+        (rs.next _).expects().returns(true)
+        (rs.getRow _).expects().returns(rowNum)
+      }
+      (rs.next _).expects().returns(false)
+
+      val queryResult = new SqlQueryResult(ps, rs)
+      val actualRows: Seq[String] = queryResult.mapRows(rs => expectedRows(rs.getRow - 1))
+      assert(actualRows.size == expectedRows.size)
+      assert(actualRows.forall(expectedRows.contains))
     }
-    (rs.next _).expects().returns(false)
-
-    val queryResult = new SqlQueryResult(ps, rs)
-    val actualRows: Seq[String] = queryResult.mapRows(rs => expectedRows(rs.getRow - 1))
-    assert(actualRows.size == expectedRows.size)
-    assert(actualRows.forall(expectedRows.contains))
   }
 
   test("mapOneRow should map only first row and return result") {
