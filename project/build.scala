@@ -1,5 +1,5 @@
 import sbt._
-import Keys._
+import sbt.Keys._
 
 object build {
   object project {
@@ -70,6 +70,8 @@ object build {
 
     excludeFilter in unmanagedSources := HiddenFileFilter || ".keepdir",
     excludeFilter in unmanagedResources := HiddenFileFilter || ".keepdir",
+
+    publishM2Configuration := publishM2Configuration.value.withOverwrite(true),
   )
 
   val scalaCommonSettings = commonSettings ++ Seq(
