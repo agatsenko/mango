@@ -30,10 +30,15 @@ package object util {
         }
       }
     }
+
+    def asEither: Either[Throwable, T] = tr match {
+      case Success(v) => Right(v)
+      case Failure(ex) => Left(ex)
+    }
   }
 
-  implicit class EitherExt[+A, +B](val either: Either[A, B]) extends AnyVal {
-    def asTry(implicit ev: A <:< Throwable): Try[B] = either match {
+  implicit class EitherExt[+L, +R](val either: Either[L, R]) extends AnyVal {
+    def asTry(implicit ev: L <:< Throwable): Try[R] = either match {
       case Right(b) => Success(b)
       case Left(a) => Failure(a)
     }

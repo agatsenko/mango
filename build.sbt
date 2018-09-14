@@ -2,6 +2,9 @@ lazy val `mango-common` = (project in file("./modules/mango-common/")).
   settings(build.scalaCommonSettings: _*).
   settings(
     name := "mango-common",
+    libraryDependencies ++= Seq(
+      build.depends.scalamock % Test,
+    )
   )
 
 lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
@@ -11,7 +14,7 @@ lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
     libraryDependencies ++= Seq(
       build.depends.scalamock % Test,
       build.depends.h2database % Test,
-      build.depends.hikariCp % Test
+      build.depends.hikariCp % Test,
     )
   ).
   dependsOn(
