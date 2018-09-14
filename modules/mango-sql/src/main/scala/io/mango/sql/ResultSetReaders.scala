@@ -6,6 +6,7 @@ package io.mango.sql
 
 import java.{lang => jl, math => jm, sql => js, util => ju}
 import java.time._
+import java.util.UUID
 
 trait ResultSetReaders {
   //#region Boolean / java.lang.Boolean readers
@@ -209,6 +210,12 @@ trait ResultSetReaders {
   implicit val stringReader: ResultSetReader[String] = (rs, c) => rs.getString(c)
 
   //#endregion String reader
+
+  //#region UUID reader
+
+  implicit val uuidReader: ResultSetReader[UUID] = (rs, c) => rs.getObject(c, classOf[UUID])
+
+  //#endregion UUID reader
 
   //#region Date / Time readers
 

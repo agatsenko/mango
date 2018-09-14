@@ -7,6 +7,7 @@ package io.mango.sql
 import java.{lang => jl, math => jm, sql => js, util => ju}
 import java.sql.ResultSet
 import java.time._
+import java.util.UUID
 
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{FunSuite, Matchers}
@@ -594,7 +595,7 @@ class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with
 
   //#endregion read BigDecimal / java.math.BigDecimal
 
-  //#region  read String
+  //#region read String
 
   test("read string") {
     val testData = Table(
@@ -613,6 +614,26 @@ class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with
   }
 
   //#endregion  read String
+
+  //#region read UUID
+
+  test("read uuid") {
+    val testData = Table(
+      ("column", "rsValue"),
+      (1, UUID.randomUUID()),
+      (2, null)
+    )
+
+    forAll(testData) { (column, rsValue) =>
+      val rs = stub[ResultSet]
+      (rs.getObject[UUID](_: Int, _: Class[UUID])).when(column, classOf[UUID]).returns(rsValue)
+
+      assert(ResultSetReader.readAs[UUID](rs, column) == rsValue)
+      assert(ResultSetReader.readAs[Option[UUID]](rs, column) == Option(rsValue))
+    }
+  }
+
+  //#endregion read UUID
 
   //#region read Date / Time
 
