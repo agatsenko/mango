@@ -31,14 +31,14 @@ package object util {
       }
     }
 
-    def asEither: Either[Throwable, T] = tr match {
+    def toEither: Either[Throwable, T] = tr match {
       case Success(v) => Right(v)
       case Failure(ex) => Left(ex)
     }
   }
 
   implicit class EitherExt[+L, +R](val either: Either[L, R]) extends AnyVal {
-    def asTry(implicit ev: L <:< Throwable): Try[R] = either match {
+    def toTry(implicit ev: L <:< Throwable): Try[R] = either match {
       case Right(b) => Success(b)
       case Left(a) => Failure(a)
     }

@@ -9,10 +9,10 @@ import scala.util.Try
 import org.scalatest.{FunSuite, Matchers}
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class EitherExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
-  import EitherExtTests._
+class EitherExtTests_2_11 extends FunSuite with TableDrivenPropertyChecks with Matchers {
+  import EitherExtTests_2_11._
 
-  test("asTry should convert Either[E <: Throwable, T] to Try[T]") {
+  test("toTry should convert Either[E <: Throwable, T] to Try[T]") {
     val ex1 = new Test1Exception
     val ex2 = new Test2Exception
     val data = Table(
@@ -23,12 +23,12 @@ class EitherExtTests extends FunSuite with TableDrivenPropertyChecks with Matche
     )
 
     forAll(data) { (either, expectedTry) =>
-      assert(either.asTry == expectedTry)
+      assert(either.toTry == expectedTry)
     }
   }
 }
 
-object EitherExtTests {
+object EitherExtTests_2_11 {
   class Test1Exception extends Exception
   class Test2Exception extends Exception
 }

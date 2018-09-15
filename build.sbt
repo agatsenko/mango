@@ -1,4 +1,4 @@
-lazy val `mango-common` = (project in file("./modules/mango-common/")).
+lazy val mangoCommon = (project in file("./modules/mango-common/")).
   settings(build.scalaCommonSettings: _*).
   settings(
     name := "mango-common",
@@ -7,7 +7,7 @@ lazy val `mango-common` = (project in file("./modules/mango-common/")).
     )
   )
 
-lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
+lazy val mangoSql = (project in file("./modules/mango-sql/")).
   settings(build.scalaCommonSettings: _*).
   settings(
     name := "mango-sql",
@@ -18,7 +18,7 @@ lazy val `mango-sql` = (project in file("./modules/mango-sql/")).
     )
   ).
   dependsOn(
-    `mango-common`,
+    mangoCommon,
   )
 
 
@@ -28,6 +28,6 @@ lazy val mango = (project in file(".")).
     name := "mango",
   ).
   aggregate(
-    `mango-common`,
-    `mango-sql`,
+    mangoCommon,
+    mangoSql,
   )

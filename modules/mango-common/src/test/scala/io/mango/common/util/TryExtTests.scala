@@ -97,18 +97,6 @@ class TryExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers 
     assert(ex.getSuppressed.length == 1)
     assert(ex.getSuppressed()(0) eq tryEx)
   }
-
-  test("asEither should convert Try[T] to Either[Throwable, T]") {
-    val tryEx = new TestException()
-    val data = Table[Try[Any], Either[Throwable, Any]](
-      ("tr", "expectedResult"),
-      (Try(10), Right(10)),
-      (Try(throw tryEx), Left(tryEx))
-    )
-    forAll(data) { (tr, expectedResult) =>
-      assert(tr.asEither == expectedResult)
-    }
-  }
 }
 
 object TryExtTests {
