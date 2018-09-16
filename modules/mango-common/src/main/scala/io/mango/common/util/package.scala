@@ -43,4 +43,13 @@ package object util {
       case Left(a) => Failure(a)
     }
   }
+
+  implicit class OptionEx[+T](val opt: Option[T]) extends AnyVal {
+    def getOrThrow[E <: Throwable](f: => E): T = {
+      if (opt.isEmpty) {
+        throw f
+      }
+      opt.get
+    }
+  }
 }
