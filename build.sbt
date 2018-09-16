@@ -39,10 +39,12 @@ lazy val mangoServicesMacwire = (project in file("./modules/mango-services-macwi
       name := "mango-services-macwire",
       libraryDependencies ++= Seq(
         build.depends.macwireMacros,
+        build.depends.macwireUtil,
       )
     ).
     dependsOn(
       mangoCommon,
+      mangoServices,
     )
 
 lazy val mango = (project in file(".")).

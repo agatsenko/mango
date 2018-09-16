@@ -31,6 +31,7 @@ object build {
     val logbackClassic = "ch.qos.logback" % "logback-classic" % ver.logback
 
     val macwireMacros = "com.softwaremill.macwire" %% "macros" % ver.macwire
+    val macwireUtil = "com.softwaremill.macwire" %% "util" % ver.macwire
 
     val hikariCp = "com.zaxxer" % "HikariCP" % ver.hikariCp
     val h2database = "com.h2database" % "h2" % ver.h2database
