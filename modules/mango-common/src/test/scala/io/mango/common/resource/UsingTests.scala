@@ -10,7 +10,7 @@ import org.scalatest.FunSuite
 import org.scalatest.prop.TableDrivenPropertyChecks
 
 class UsingTests extends FunSuite with TableDrivenPropertyChecks with MockFactory with Matchers {
-  test("test using(resource)(action)") {
+  test("using(resource)(action) should close resource after action is completed") {
     val resourceFactories = Table[() => CloseableResource](
       "resourceFactory",
       () => null,
@@ -36,3 +36,4 @@ class UsingTests extends FunSuite with TableDrivenPropertyChecks with MockFactor
     }
   }
 }
+
