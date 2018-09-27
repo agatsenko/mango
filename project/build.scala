@@ -4,7 +4,7 @@ import sbt.Keys._
 object build {
   object project {
     val org = "io.mango"
-    val ver = "0.3.0"
+    val ver = "0.3.1"
   }
 
   object ver {
