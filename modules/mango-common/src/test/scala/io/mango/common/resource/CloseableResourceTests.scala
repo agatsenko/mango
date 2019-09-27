@@ -10,7 +10,7 @@ import org.scalatest.FunSuite
 import org.scalatest.prop.TableDrivenPropertyChecks
 
 class CloseableResourceTests extends FunSuite with TableDrivenPropertyChecks with MockFactory with Matchers {
-  test("isOpened should return !isClosed value") {
+  test("isOpen should return !isClosed value") {
     val testData = Table(
       ("isClosed", "expectedIsOpened"),
       (false, true),
@@ -21,7 +21,7 @@ class CloseableResourceTests extends FunSuite with TableDrivenPropertyChecks wit
       val resource = stub[CloseableResource]
       (resource.isClosed _).when().returns(isClosed)
 
-      assert(resource.isOpened == expectedIsOpened)
+      assert(resource.isOpen == expectedIsOpened)
     }
   }
 }

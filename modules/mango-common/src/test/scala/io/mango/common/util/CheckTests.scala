@@ -46,8 +46,8 @@ class CheckTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
     }
   }
 
-  test("argNotNullOrEmpty(arg: TraversableOnce, argName)") {
-    val data = Table[TraversableOnce[_], CharSequence](
+  test("argNotEmpty(arg: TraversableOnce, argName)") {
+    val data = Table[Iterable[_], CharSequence](
       ("arg", "argName"),
       (null, "testArg"),
       (Seq(), "testArg"),
@@ -58,17 +58,17 @@ class CheckTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
 
     forAll(data) { (arg, argName) =>
       if (arg == null || arg.isEmpty) {
-        val error = intercept[IllegalArgumentException](Check.argNotNullOrEmpty(arg, argName))
+        val error = intercept[IllegalArgumentException](Check.argNotEmpty(arg, argName))
         assert(error.getMessage != null)
         assert(error.getMessage.contains(argName.toString))
       }
       else {
-        Check.argNotNullOrEmpty(arg, argName)
+        Check.argNotEmpty(arg, argName)
       }
     }
   }
 
-  test("argNotNullOrEmpty(arg: Array, argName)") {
+  test("argNotEmpty(arg: Array, argName)") {
     val data = Table[Array[_], CharSequence](
       ("arg", "argName"),
       (null, "testArg"),
@@ -78,12 +78,12 @@ class CheckTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
 
     forAll(data) { (arg, argName) =>
       if (arg == null || arg.isEmpty) {
-        val error = intercept[IllegalArgumentException](Check.argNotNullOrEmpty(arg, argName))
+        val error = intercept[IllegalArgumentException](Check.argNotEmpty(arg, argName))
         assert(error.getMessage != null)
         assert(error.getMessage.contains(argName.toString))
       }
       else {
-        Check.argNotNullOrEmpty(arg, argName)
+        Check.argNotEmpty(arg, argName)
       }
     }
   }

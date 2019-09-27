@@ -1,12 +1,10 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-04
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-04
+ */
 package io.mango.sql
 
-import scala.language.higherKinds
-
-import scala.collection.generic.CanBuildFrom
+import scala.collection.{Factory, Seq}
 
 import java.sql.{Connection, PreparedStatement, ResultSet}
 
@@ -38,10 +36,8 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit con
     new SqlQueryResult(ps, ps.executeQuery())
   }
 
-  def execRows[T, C[_]](
-      mapper: ResultSet => T)(
-      implicit conn: Connection,
-      cbf: CanBuildFrom[Nothing, T, C[T]]): C[T] = using(execQuery)(_.mapRows(mapper))
+  def execRows[T, C[_]](mapper: ResultSet => T)(implicit conn: Connection, cbf: Factory[T, C[T]]): C[T] =
+    using(execQuery)(_.mapRows(mapper))
 
   def execForeachRows(action: ResultSet => Unit)(implicit conn: Connection): Unit = {
     using(execQuery)(_.foreachRows(action))
@@ -56,4 +52,6 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit con
       ps.executeUpdate()
     }
   }
+
+  override def toString: String = s"${classOf[SqlQuery].getSimpleName}('$sql', $paramValues)"
 }

@@ -6,7 +6,7 @@ package io.mango.common
 
 import scala.util.Try
 
-import io.mango.common.util.TryExt
+import _root_.io.mango.common.util.TryExt
 
 package object resource {
   type AC = AutoCloseable

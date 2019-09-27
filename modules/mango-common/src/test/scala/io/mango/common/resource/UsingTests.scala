@@ -27,7 +27,7 @@ class UsingTests extends FunSuite with TableDrivenPropertyChecks with MockFactor
       val resource = factory()
       using(resource) { r =>
         if (r != null) {
-          assert(r.isOpened)
+          assert(r.isOpen)
         }
       }
       if (resource != null) {

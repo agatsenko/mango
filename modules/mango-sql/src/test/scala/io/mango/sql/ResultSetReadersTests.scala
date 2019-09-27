@@ -491,7 +491,7 @@ class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with
       (10.2f, jm.BigInteger.valueOf(10.2f.toLong)),
       (10.2, jm.BigInteger.valueOf(10.2.toLong)),
       (jm.BigInteger.valueOf(10L), jm.BigInteger.valueOf(10)),
-      (jm.BigDecimal.valueOf(10.2), BigDecimal(10.2).toBigInt().bigInteger)
+      (jm.BigDecimal.valueOf(10.2), BigDecimal(10.2).toBigInt.bigInteger)
     )
 
     forAll(testData) { (rsValue, expectedValue) =>
@@ -513,7 +513,7 @@ class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with
       (10.2f, BigInt(10.2f.toLong)),
       (10.2, BigInt(10.2.toLong)),
       (jm.BigInteger.valueOf(10L), BigInt(10)),
-      (jm.BigDecimal.valueOf(10.2), BigDecimal(10.2).toBigInt())
+      (jm.BigDecimal.valueOf(10.2), BigDecimal(10.2).toBigInt)
     )
 
     forAll(testData) { (rsValue, expectedValue) =>

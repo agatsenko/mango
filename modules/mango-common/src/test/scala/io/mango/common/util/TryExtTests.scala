@@ -1,7 +1,7 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-14
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-14
+ */
 package io.mango.common.util
 
 import scala.util.{Failure, Success, Try}
@@ -12,7 +12,7 @@ import org.scalatest.prop.TableDrivenPropertyChecks
 class TryExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
   import TryExtTests._
 
-  test("eventually(action) should perform action regardless of the Try result and return source Try result") {
+  test("eventually(action) should perform action regardless of the Try result") {
     val data = Table[Either[Throwable, Any]](
       "tryResult",
       Right(10),
@@ -27,17 +27,17 @@ class TryExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers 
           case Left(ex) => throw ex
         }
       }.eventually { tr =>
-        actionPerformed = true
         tr match {
-          case Success(v) => assert(v == tryResult.right.get)
-          case Failure(ex) => assert(ex == tryResult.left.get)
+          case Success(v) => assert(v == tryResult.getOrElse(null))
+          case Failure(ex) => assert(ex == tryResult.swap.getOrElse(null))
         }
+        actionPerformed = true
       }
 
       assert(actionPerformed)
       tr match {
-        case Success(v) => assert(v == tryResult.right.get)
-        case Failure(ex) => assert(ex == tryResult.left.get)
+        case Success(v) => assert(v == tryResult.getOrElse(null))
+        case Failure(ex) => assert(ex == tryResult.swap.getOrElse(null))
       }
     }
   }
@@ -73,7 +73,7 @@ class TryExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers 
   test("convertFailure(converter) should not perform converter if try result is Success") {
     val tryResult = 10
     var convertPerformed = false
-    val tr = Try(tryResult).convertFailure { ex =>
+    val tr = Try(tryResult).convertFailure { _ =>
       convertPerformed = true
       new TestException
     }

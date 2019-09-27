@@ -7,5 +7,5 @@ package io.mango.common.resource
 trait CloseableResource extends AutoCloseable {
   def isClosed: Boolean
 
-  final def isOpened: Boolean = !isClosed
+  final def isOpen: Boolean = !isClosed
 }

@@ -15,7 +15,7 @@ private[resource] abstract class ManagedResource extends CloseableResource {
 
   final override def close(): Unit = {
     try {
-      if (isOpened) {
+      if (isOpen) {
         closeResources(getResources)
       }
     }

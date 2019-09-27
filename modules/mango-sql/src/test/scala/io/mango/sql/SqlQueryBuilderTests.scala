@@ -7,7 +7,7 @@ package io.mango.sql
 import org.scalatest.{FunSuite, Matchers}
 
 class SqlQueryBuilderTests extends FunSuite with Matchers {
-  import Implicits.All._
+  import Implicits.SqlQueryBuilder._
 
   test("build sql") {
     val sqlFragment1 = "fragment1"
@@ -19,9 +19,9 @@ class SqlQueryBuilderTests extends FunSuite with Matchers {
     val expectedSql = s"static text, fragments: ($sqlFragment1, $sqlFragment2), params: (?, ?, ?)"
     val expectedParams = Seq[Any](param1, null, param3.get)
 
-    val queryBuilder =
+    val query =
       sql"static text, fragments: (${sqlf(sqlFragment1)}, ${sqlf(sqlFragment2)}), params: ($param1, $param2, $param3)"
-    assert(queryBuilder.sql == expectedSql)
-    assert(queryBuilder.params == expectedParams)
+    assert(query.sql == expectedSql)
+    assert(query.params == expectedParams)
   }
 }

@@ -40,11 +40,11 @@ class ManagedResource7Tests extends FunSuite
     val newManagedRes = managedRes.and(newRes)
 
     assert(managedRes.isClosed)
-    assert(!managedRes.isOpened)
+    assert(!managedRes.isOpen)
     assertAllResourcesOpened(managedRes)
 
     assert(!newManagedRes.isClosed)
-    assert(newManagedRes.isOpened)
+    assert(newManagedRes.isOpen)
     assertAllResourcesOpened(newManagedRes)
     assert((managedRes.getResources :+ newRes) == newManagedRes.getResources)
   }

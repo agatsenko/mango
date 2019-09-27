@@ -4,9 +4,7 @@
   */
 package io.mango.sql
 
-import scala.language.higherKinds
-
-import scala.collection.generic.CanBuildFrom
+import scala.collection.Factory
 import scala.util.Try
 
 import java.sql.{PreparedStatement, ResultSet}
@@ -20,7 +18,7 @@ class SqlQueryResult private[sql](
   def isClosed: Boolean = preparedStatement.isClosed
 
   override def close(): Unit = {
-    if (isOpened) {
+    if (isOpen) {
       Try(resultSet.close()).eventually(_ => preparedStatement.close()).get
     }
   }
@@ -31,8 +29,8 @@ class SqlQueryResult private[sql](
     }
   }
 
-  def mapRows[R, C[_]](mapper: ResultSet => R)(implicit cbf: CanBuildFrom[Nothing, R, C[R]]): C[R] = {
-    val builder = cbf()
+  def mapRows[R, C[_]](mapper: ResultSet => R)(implicit f: Factory[R, C[R]]): C[R] = {
+    val builder = f.newBuilder
     while (resultSet.next()) {
       builder += mapper(resultSet)
     }

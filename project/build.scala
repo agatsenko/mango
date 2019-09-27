@@ -4,12 +4,12 @@ import sbt.Keys._
 object build {
   object project {
     val org = "io.mango"
-    val ver = "0.3.1"
+    val ver = "0.4.2"
   }
 
   object ver {
-    val java = "1.8"
-    val crossScala = Seq("2.11.12", "2.12.6")
+    val java = "11"
+    val scala = "2.13.1"
 
     val slf4j = "1.7.+"
     val logback = "1.2.+"
@@ -19,8 +19,8 @@ object build {
     val hikariCp = "2.7.+"
     val h2database = "1.4.+"
 
-    val scalatest = "3.0.5"
-    val scalamock = "4.1.+"
+    val scalatest = "3.0.8"
+    val scalamock = "4.4.+"
   }
 
   object depends {
@@ -44,7 +44,7 @@ object build {
     organization := project.org,
     version := project.ver,
 
-    crossScalaVersions := ver.crossScala,
+    scalaVersion := ver.scala,
 
     // some info about scala compile options see in
     // http://blog.threatstack.com/useful-scalac-options-for-better-scala-development-part-1
@@ -58,26 +58,28 @@ object build {
       "-unchecked",
       // Emit warning and location for usages of features that should be imported explicitly.
       "-feature",
-      // Enable experimental extensions.
-      "-Xexperimental",
       // Wrap field accessors to throw an exception on uninitialized access.
       "-Xcheckinit",
       // Enable recommended additional warnings.
       "-Xlint:_",
       // Fail the compilation if there are any warnings.
-      //, "-Xfatal-warnings"
+      "-Xfatal-warnings",
       // Warn when local and private vals, vars, defs, and types are unused.
       "-Ywarn-unused",
       // Warn when numerics are widened.
-      //"-Ywarn-numeric-widen",
+//      "-Ywarn-numeric-widen",
     ),
     compileOrder := CompileOrder.Mixed,
 
     excludeFilter in unmanagedSources := HiddenFileFilter || ".keepdir",
     excludeFilter in unmanagedResources := HiddenFileFilter || ".keepdir",
 
-    publishM2Configuration := publishM2Configuration.value.withOverwrite(true),
+    resolvers += "github my artifacts" at "https://raw.githubusercontent.com/agatsenko/artifacts/master/maven",
+
+    publishMavenStyle := true,
+    publishTo := Some(Resolver.file("github local my artifacts", file(sys.env.get("GITHUB_ARTIFACTS_MAVEN_REPO").get))),
   )
+
 
   val scalaCommonSettings = commonSettings ++ Seq(
     libraryDependencies ++= Seq(

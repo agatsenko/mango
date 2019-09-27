@@ -13,15 +13,15 @@ object Check {
     Check.arg(arg != null, s"$argName is null")
   }
 
-  def argNotNullOrEmpty(arg: CharSequence, argName: CharSequence): Unit = {
+  def argNotEmpty(arg: CharSequence, argName: CharSequence): Unit = {
     Check.arg(arg != null && arg.length() > 0, s"$argName is null or empty")
   }
 
-  def argNotNullOrEmpty[T](arg: TraversableOnce[T], argName: CharSequence): Unit = {
+  def argNotEmpty[T](arg: Iterable[T], argName: CharSequence): Unit = {
     Check.arg(arg != null && arg.nonEmpty, s"$argName is null or empty")
   }
 
-  def argNotNullOrEmpty[T](arg: Array[T], argName: CharSequence): Unit = {
+  def argNotEmpty[T](arg: Array[T], argName: CharSequence): Unit = {
     Check.arg(arg != null && arg.nonEmpty, s"$argName is null or empty")
   }
 

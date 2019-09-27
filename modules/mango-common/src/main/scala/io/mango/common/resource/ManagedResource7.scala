@@ -13,7 +13,7 @@ sealed case class ManagedResource7[R1 <: AC, R2 <: AC, R3 <: AC, R4 <: AC, R5 <:
     private[resource] val r6: R6,
     private[resource] val r7: R7) extends ManagedResource {
   def using[T](f: (R1, R2, R3, R4, R5, R6, R7) => T): Option[T] = {
-    if (isOpened) Some(f(r1, r2, r3, r4, r5, r6, r7)) else None
+    if (isOpen) Some(f(r1, r2, r3, r4, r5, r6, r7)) else None
   }
 
   def and[R8 <: AC](r8: => R8): ManagedResource8[R1, R2, R3, R4, R5, R6, R7, R8] = {
