@@ -4,7 +4,7 @@ import sbt.Keys._
 object build {
   object project {
     val org = "io.mango"
-    val ver = "0.4.2"
+    val ver = "0.5.0"
   }
 
   object ver {
@@ -13,13 +13,14 @@ object build {
 
     val slf4j = "1.7.+"
     val logback = "1.2.+"
+    val scalaLogging = "3.9.+"
 
     val macwire = "2.3.+"
 
-    val hikariCp = "2.7.+"
+    val hikariCp = "3.4.+"
     val h2database = "1.4.+"
 
-    val scalatest = "3.0.8"
+    val scalatest = "3.1.+"
     val scalamock = "4.4.+"
   }
 
@@ -29,6 +30,7 @@ object build {
 
     val slf4jApi = "org.slf4j" % "slf4j-api" % ver.slf4j
     val logbackClassic = "ch.qos.logback" % "logback-classic" % ver.logback
+    val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % ver.scalaLogging
 
     val macwireMacros = "com.softwaremill.macwire" %% "macros" % ver.macwire
     val macwireUtil = "com.softwaremill.macwire" %% "util" % ver.macwire

@@ -1,15 +1,17 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-16
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-16
+ */
 package io.mango.services
 
 import scala.reflect.{classTag, ClassTag}
 
+import org.scalamock.matchers.Matchers
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{BeforeAndAfter, FunSuite, Matchers}
+import org.scalatest.BeforeAndAfter
+import org.scalatest.funsuite.AnyFunSuite
 
-class ServicesTests extends FunSuite with BeforeAndAfter with Matchers with MockFactory {
+class ServicesTests extends AnyFunSuite with BeforeAndAfter with Matchers with MockFactory {
   import ServicesTests._
 
   before {

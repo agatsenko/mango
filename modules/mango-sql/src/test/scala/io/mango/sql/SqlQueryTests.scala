@@ -1,18 +1,20 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-12
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-12
+ */
 package io.mango.sql
+
+import scala.util.Using
 
 import java.sql.{Connection, PreparedStatement}
 
-import io.mango.common.resource.using
 import io.mango.common.util.SimpleValExt.IntExt
 import io.mango.sql.test.infrastructure.{Record, TestWithRecord}
+import org.scalamock.matchers.Matchers
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
 
-class SqlQueryTests extends FunSuite with TestWithRecord with MockFactory with Matchers {
+class SqlQueryTests extends AnyFunSuite with TestWithRecord with MockFactory with Matchers {
   import Implicits.All._
   import Record._
 
@@ -47,7 +49,7 @@ class SqlQueryTests extends FunSuite with TestWithRecord with MockFactory with M
   test("test execQuery") {
     testWithinConn { implicit conn =>
       val query = new SqlQuery(s"select count(*) from $TABLE", null)
-      using(query.execQuery) { qr =>
+      Using.resource(query.execQuery) { qr =>
         assert(qr != null)
 
         assert(qr.preparedStatement != null)

@@ -47,6 +47,22 @@ lazy val mangoServicesMacwire = (project in file("./modules/mango-services-macwi
       mangoServices,
     )
 
+lazy val mangoSamples = (project in file("./modules/mango-samples")).
+    settings(build.scalaCommonSettings: _*).
+    settings(
+      name := "mango-samples",
+      libraryDependencies ++= Seq(
+        build.depends.logbackClassic,
+        build.depends.scalaLogging,
+        build.depends.h2database,
+        build.depends.hikariCp,
+      )
+    ).
+    dependsOn(
+      mangoCommon,
+      mangoSql,
+    )
+
 lazy val mango = (project in file(".")).
   settings(build.commonSettings: _*).
   settings(
@@ -57,4 +73,5 @@ lazy val mango = (project in file(".")).
     mangoSql,
     mangoServices,
     mangoServicesMacwire,
+    mangoSamples,
   )

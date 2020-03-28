@@ -1,7 +1,7 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-10
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-10
+ */
 package io.mango.sql
 
 import java.{lang => jl, math => jm, sql => js, util => ju}
@@ -10,10 +10,11 @@ import java.time._
 import java.util.UUID
 
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class ResultSetReadersTests extends FunSuite with TableDrivenPropertyChecks with Matchers with MockFactory {
+class ResultSetReadersTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers with MockFactory {
   import ResultSetReaders._
   import io.mango.common.util.SimpleValExt._
 

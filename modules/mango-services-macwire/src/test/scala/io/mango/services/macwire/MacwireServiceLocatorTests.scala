@@ -4,11 +4,11 @@
   */
 package io.mango.services.macwire
 
-import org.scalatest.{FunSuite, Matchers}
-
 import com.softwaremill.macwire._
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class MacwireServiceLocatorTests extends FunSuite with Matchers {
+class MacwireServiceLocatorTests extends AnyFunSuite with Matchers {
   import MacwireServiceLocatorTests._
 
   test("get[T] should return None if services is not defined") {

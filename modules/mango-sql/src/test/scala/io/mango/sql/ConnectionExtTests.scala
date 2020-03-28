@@ -1,16 +1,18 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-11
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-11
+ */
 package io.mango.sql
+
+import scala.util.Using
 
 import java.sql.Connection
 
-import io.mango.common.resource.using
 import io.mango.sql.test.infrastructure.{Record, TestWithRecord}
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class ConnectionExtTests extends FunSuite with TestWithRecord with Matchers {
+class ConnectionExtTests extends AnyFunSuite with TestWithRecord with Matchers {
   import ConnectionExtTests._
   import Implicits.All._
   import Record._
@@ -24,7 +26,7 @@ class ConnectionExtTests extends FunSuite with TestWithRecord with Matchers {
         expectedRecords.foreach(insertRecord(conn, _))
       }
 
-      val actualRecords = using(connPool.getConnection)(selAllRecords)
+      val actualRecords = Using.resource(connPool.getConnection)(selAllRecords)
       assert(actualRecords.size == expectedRecords.size)
       assert(actualRecords.forall(expectedRecords.contains(_)))
     }
@@ -48,7 +50,7 @@ class ConnectionExtTests extends FunSuite with TestWithRecord with Matchers {
         }
       }
 
-      val actualRecords = using(connPool.getConnection)(selAllRecords)
+      val actualRecords = Using.resource(connPool.getConnection)(selAllRecords)
       assert(actualRecords.size == expectedRecords.size)
       assert(actualRecords.forall(expectedRecords.contains(_)))
     }
@@ -79,7 +81,7 @@ class ConnectionExtTests extends FunSuite with TestWithRecord with Matchers {
       }
     }
 
-    val actualRecords = using(connPool.getConnection)(selAllRecords)
+    val actualRecords = Using.resource(connPool.getConnection)(selAllRecords)
     assert(actualRecords.isEmpty)
   }
 
@@ -108,7 +110,7 @@ class ConnectionExtTests extends FunSuite with TestWithRecord with Matchers {
       }
     }
 
-    val actualRecords = using(connPool.getConnection)(selAllRecords)
+    val actualRecords = Using.resource(connPool.getConnection)(selAllRecords)
     assert(actualRecords.isEmpty)
   }
 }

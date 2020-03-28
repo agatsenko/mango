@@ -8,10 +8,11 @@ import scala.collection.mutable.ArrayBuffer
 
 import java.io.{BufferedInputStream, BufferedOutputStream, ByteArrayInputStream, ByteArrayOutputStream}
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class StreamsTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
+class StreamsTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers {
   test("toBufferedInputStream(in, buffSize) should create a BufferedInputStream") {
     val data = Table[Array[Byte], Option[Int]](
       ("srcBytes", "buffSize"),
@@ -29,7 +30,8 @@ class StreamsTests extends FunSuite with TableDrivenPropertyChecks with Matchers
       val bytes = new ArrayBuffer[Byte](srcBytes.size)
       var b = -1
       while ( {
-        b = buffredIn.read(); b > -1
+        b = buffredIn.read();
+        b > -1
       }) {
         bytes += b.toByte
       }

@@ -1,14 +1,14 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-12
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-12
+ */
 package io.mango.sql.test.infrastructure
+
+import scala.util.Using
 
 import java.sql.Connection
 
 import com.zaxxer.hikari.{HikariConfig, HikariDataSource}
-import io.mango.common.resource
-import io.mango.common.resource.using
 import org.h2.jdbcx.JdbcDataSource
 import org.scalatest.{BeforeAndAfter, Suite}
 
@@ -47,10 +47,10 @@ trait TestWithRecord extends BeforeAndAfter {
     new HikariDataSource(conf)
   }
 
-  def createRecordTable(): Unit = resource.using(connPool.getConnection())(Record.createTable)
+  def createRecordTable(): Unit = Using.resource(connPool.getConnection())(Record.createTable)
 
   def testWithinConn(action: Connection => Unit): Unit = {
-    using(connPool.getConnection) { c =>
+    Using.resource(connPool.getConnection) { c =>
       action(c)
     }
   }

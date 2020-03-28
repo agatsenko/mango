@@ -1,12 +1,13 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-14
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-14
+ */
 package io.mango.sql
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 
-class SqlQueryBuilderTests extends FunSuite with Matchers {
+class SqlQueryBuilderTests extends AnyFunSuite with Matchers {
   import Implicits.SqlQueryBuilder._
 
   test("build sql") {

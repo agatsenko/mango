@@ -1,20 +1,21 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-11
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-11
+ */
 package io.mango.sql
 
-import io.mango.common.util.SimpleValExt.{ByteExt, DoubleExt, FloatExt, IntExt, LongExt, ShortExt}
-import org.scalatest.{FunSuite, Matchers}
-import org.scalatest.prop.TableDrivenPropertyChecks
 import java.{math => jm}
 import java.sql.{Date, Time, Timestamp}
 import java.time._
 
+import io.mango.common.util.SimpleValExt.{ByteExt, DoubleExt, FloatExt, IntExt, LongExt, ShortExt}
 import io.mango.sql.test.infrastructure.OffsetDateTimeExt.OffsetDateTimeExt
 import io.mango.sql.test.infrastructure.ZonedDateTimeExt.ZonedDateTimeExt
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
+import org.scalatest.prop.TableDrivenPropertyChecks
 
-class SqlValueConverterTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
+class SqlValueConverterTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers {
   test("test toSqlValue") {
     val testData = Table[Any, Either[Class[_], Any]](
       ("srcValue", "expectedSqlValue"),

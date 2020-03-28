@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <property name="LOGS" value="./logs"/>
+
+  <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%white(%d{ISO8601}) %highlight(%-5level) [%cyan(%t)] %yellow(%logger{1.}): %msg%n%throwable</Pattern>
+    </encoder>
+  </appender>
+
+  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${LOGS}/mango-samples.log</file>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <Pattern>%d %p %C{1.} [%t] %m%n</Pattern>
+    </encoder>
+    <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+      <fileNamePattern>${LOGS}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+      <maxFileSize>5MB</maxFileSize>
+      <maxHistory>3</maxHistory>
+      <totalSizeCap>10MB</totalSizeCap>
+    </rollingPolicy>
+  </appender>
+
+  <logger name="io.mango" level="debug"/>
+
+  <root level="info">
+    <appender-ref ref="file"/>
+    <appender-ref ref="console"/>
+  </root>
+</configuration>

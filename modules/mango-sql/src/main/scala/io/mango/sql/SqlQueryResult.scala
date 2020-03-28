@@ -1,7 +1,7 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-01-31
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-01-31
+ */
 package io.mango.sql
 
 import scala.collection.Factory
@@ -9,13 +9,14 @@ import scala.util.Try
 
 import java.sql.{PreparedStatement, ResultSet}
 
-import io.mango.common.resource.CloseableResource
 import io.mango.common.util.TryExt
 
 class SqlQueryResult private[sql](
     val preparedStatement: PreparedStatement,
-    val resultSet: ResultSet) extends CloseableResource {
+    val resultSet: ResultSet) extends AutoCloseable {
   def isClosed: Boolean = preparedStatement.isClosed
+
+  def isOpen: Boolean = !isClosed
 
   override def close(): Unit = {
     if (isOpen) {

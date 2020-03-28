@@ -1,13 +1,15 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-14
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-14
+ */
 package io.mango.common.util
 
-import org.scalatest.{FunSuite, Matchers}
 import java.{lang => jl}
 
-class SimpleValExtTests extends FunSuite with Matchers {
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
+
+class SimpleValExtTests extends AnyFunSuite with Matchers {
   import SimpleValExt._
 
   //#region boolean box/unbox

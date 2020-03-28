@@ -6,10 +6,11 @@ package io.mango.common.util
 
 import scala.util.{Failure, Success, Try}
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class TryExtTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
+class TryExtTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers {
   import TryExtTests._
 
   test("eventually(action) should perform action regardless of the Try result") {

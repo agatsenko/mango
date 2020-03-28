@@ -1,12 +1,12 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-12
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-12
+ */
 package io.mango.sql.test.infrastructure
 
-import java.sql.Connection
+import scala.util.Using
 
-import io.mango.common.resource.using
+import java.sql.Connection
 
 case class Record(id: Long, str: Option[String], int: Option[Int])
 
@@ -37,7 +37,7 @@ object Record {
         );
         delete from $TABLE;
       """
-    using (conn.prepareStatement(sql)) { ps =>
+    Using.resource(conn.prepareStatement(sql)) { ps =>
       ps.execute()
     }
   }
@@ -49,26 +49,26 @@ object Record {
           ${r.id}, ${r.str.map("'" + _ + "'").orNull}, ${r.int.orNull}
         )
       """
-    using(conn.prepareStatement(sql)) { ps =>
+    Using.resource(conn.prepareStatement(sql)) { ps =>
       ps.execute()
     }
   }
 
   def selAllRecords(conn: Connection): Seq[Record] = {
     val sql = s"select $ID_CLM, $STR_CLM, $INT_CLM from $TABLE"
-    using(conn.prepareStatement(sql)) { ps =>
+    Using.Manager { use =>
+      val ps = use(conn.prepareStatement(sql))
       val seqBuilder = Seq.newBuilder[Record]
-      using (ps.executeQuery()) { rs =>
-        while(rs.next()) {
-          seqBuilder += Record(
-            rs.getLong(ID_CLM),
-            Option(rs.getString(STR_CLM)),
-            Option(rs.getObject(INT_CLM, classOf[Integer])).map(_.intValue())
-          )
-        }
+      val rs = use(ps.executeQuery())
+      while (rs.next()) {
+        seqBuilder += Record(
+          rs.getLong(ID_CLM),
+          Option(rs.getString(STR_CLM)),
+          Option(rs.getObject(INT_CLM, classOf[Integer])).map(_.intValue())
+        )
       }
       seqBuilder.result()
-    }
+    }.get
   }
 
   final class RecordSeq {

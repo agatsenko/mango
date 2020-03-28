@@ -1,13 +1,14 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-17
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-17
+ */
 package io.mango.common.util
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class OptionExTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
+class OptionExTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers {
   import io.mango.common.util.OptionExTests._
 
   test("getOrThrow(ex) should get value if Option is defined") {

@@ -1,14 +1,16 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-12
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-12
+ */
 package io.mango.sql
 
-import io.mango.common.resource.using
-import io.mango.sql.test.infrastructure.{Record, TestWithRecord}
-import org.scalatest.{FunSuite, Matchers}
+import scala.util.Using
 
-class ResultSetExtTests extends FunSuite with TestWithRecord with Matchers {
+import io.mango.sql.test.infrastructure.{Record, TestWithRecord}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
+
+class ResultSetExtTests extends AnyFunSuite with TestWithRecord with Matchers {
   import Implicits.All._
   import Record._
 
@@ -65,11 +67,11 @@ class ResultSetExtTests extends FunSuite with TestWithRecord with Matchers {
 
       val sql = s"select * from $TABLE"
       val actualBuilder = Seq.newBuilder[Record]
-      using(conn.prepareStatement(sql)) { ps =>
-        using(ps.executeQuery()) { rs =>
-          rs.foreach(rs => actualBuilder += Record(rs.get(ID_CLM), rs.get(STR_CLM), rs.get(INT_CLM)))
-        }
-      }
+      Using.Manager { use =>
+        val ps = use(conn.prepareStatement(sql))
+        val rs = use(ps.executeQuery())
+        rs.foreach(rs => actualBuilder += Record(rs.get(ID_CLM), rs.get(STR_CLM), rs.get(INT_CLM)))
+      }.get
       val actual = actualBuilder.result()
       assert(actual.size == expected.size)
       assert(actual.forall(expected.contains(_)))
@@ -82,8 +84,8 @@ class ResultSetExtTests extends FunSuite with TestWithRecord with Matchers {
       expected.foreach(insertRecord(conn, _))
 
       val sql = s"select * from $TABLE"
-      val actual: Set[Record] = using(conn.prepareStatement(sql)) { ps =>
-        using(ps.executeQuery()) { rs =>
+      val actual: Set[Record] = Using.resource(conn.prepareStatement(sql)) { ps =>
+        Using.resource(ps.executeQuery()) { rs =>
           rs.map(rs => Record(rs.get(ID_CLM), rs.get(STR_CLM), rs.get(INT_CLM)))
         }
       }

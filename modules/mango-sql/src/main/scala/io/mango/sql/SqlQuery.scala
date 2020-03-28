@@ -5,10 +5,9 @@
 package io.mango.sql
 
 import scala.collection.{Factory, Seq}
+import scala.util.Using
 
 import java.sql.{Connection, PreparedStatement, ResultSet}
-
-import io.mango.common.resource.using
 
 class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit converter: SqlValueConverter) {
   val params: Seq[Any] = if (paramValues == null) Seq.empty else paramValues.map(converter.toSqlValue)
@@ -20,7 +19,7 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit con
   }
 
   def execScalar[T](implicit c: Connection, r: ResultSetReader[Option[T]]): Option[T] = {
-    using(prepareStatement) { ps =>
+    Using.resource(prepareStatement) { ps =>
       val rs = ps.executeQuery()
       if (rs.next()) {
         ResultSetReader.readAs[Option[T]](rs, 1)
@@ -37,18 +36,18 @@ class SqlQuery private[sql](val sql: String, paramValues: Seq[Any])(implicit con
   }
 
   def execRows[T, C[_]](mapper: ResultSet => T)(implicit conn: Connection, cbf: Factory[T, C[T]]): C[T] =
-    using(execQuery)(_.mapRows(mapper))
+    Using.resource(execQuery)(_.mapRows(mapper))
 
   def execForeachRows(action: ResultSet => Unit)(implicit conn: Connection): Unit = {
-    using(execQuery)(_.foreachRows(action))
+    Using.resource(execQuery)(_.foreachRows(action))
   }
 
   def execOneRow[T](mapper: ResultSet => T)(implicit conn: Connection): Option[T] = {
-    using(execQuery)(_.mapOneRow(mapper))
+    Using.resource(execQuery)(_.mapOneRow(mapper))
   }
 
   def execUpdate()(implicit conn: Connection): Long = {
-    using(prepareStatement) { ps =>
+    Using.resource(prepareStatement) { ps =>
       ps.executeUpdate()
     }
   }

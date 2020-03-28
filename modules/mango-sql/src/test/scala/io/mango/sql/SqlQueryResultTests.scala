@@ -1,17 +1,17 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-14
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-14
+ */
 package io.mango.sql
 
 import java.sql.{PreparedStatement, ResultSet}
 
 import org.scalamock.scalatest.MockFactory
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class SqlQueryResultTests extends FunSuite with MockFactory with TableDrivenPropertyChecks with Matchers {
-
+class SqlQueryResultTests extends AnyFunSuite with MockFactory with TableDrivenPropertyChecks with Matchers {
   test("close() should close prepareStatement and resultSet") {
     val ps = mock[PreparedStatement]
     (ps.isClosed _).expects().returns(false)

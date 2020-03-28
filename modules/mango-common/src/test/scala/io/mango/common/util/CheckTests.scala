@@ -1,13 +1,14 @@
 /**
-  * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
-  * Created: 2018-09-14
-  */
+ * Author: Alexander Gatsenko (alexandr.gatsenko@gmail.com)
+ * Created: 2018-09-14
+ */
 package io.mango.common.util
 
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.funsuite.AnyFunSuite
+import org.scalatest.matchers.should.Matchers
 import org.scalatest.prop.TableDrivenPropertyChecks
 
-class CheckTests extends FunSuite with TableDrivenPropertyChecks with Matchers {
+class CheckTests extends AnyFunSuite with TableDrivenPropertyChecks with Matchers {
   test("arg(condition, msg)") {
     val data = Table[Boolean, CharSequence, Boolean](
       ("condition", "msg", "isErrorExpected"),
